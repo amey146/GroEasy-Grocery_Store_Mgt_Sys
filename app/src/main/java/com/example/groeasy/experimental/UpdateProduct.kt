@@ -74,7 +74,6 @@ fun UpdateProduct(
             ProductUpdateItem(label = "Price", value = "₹${String.format("%.2f", product.price)}") { newPrice ->
                 // Update the product price in the view model when the value changes
                 // Assuming newPrice is a string representation of price
-                // You may need to parse it before updating the product price
                 product.price = (newPrice.toDoubleOrNull() ?: 0.0).toFloat()
             }
 
