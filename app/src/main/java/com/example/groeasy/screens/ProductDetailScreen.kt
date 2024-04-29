@@ -40,7 +40,6 @@ fun ProductDetailScreen(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            ProductDetailItem(label = "ID", value = product.id.toString())
             ProductDetailItem(label = "Name", value = product.name)
             ProductDetailItem(label = "Description", value = product.desc)
             ProductDetailItem(label = "Brand", value = product.brand)

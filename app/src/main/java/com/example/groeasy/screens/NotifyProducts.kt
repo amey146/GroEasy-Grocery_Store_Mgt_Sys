@@ -127,7 +127,7 @@ fun buildNotification(
 
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-private fun requestPostNotificationPermission(context: Context) {
+public fun requestPostNotificationPermission(context: Context) {
     ActivityCompat.requestPermissions(
         context as Activity,
         arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),

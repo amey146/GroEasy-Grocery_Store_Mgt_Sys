@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -245,20 +246,20 @@ fun ListOfProducts(
                             }
 
                             Column {
-//                                IconButton(
-//                                    onClick = {
-//                                        val product = productsByCategory[index]
-//                                        sharedViewProducts.setProduct(product)
-//                                        VP.getNav().navigate(Screens.ProductUpdateScreen.screen)
-//                                    },
-//                                    modifier = Modifier.padding(end = 8.dp)
-//                                ) {
-//                                    Icon(
-//                                        imageVector = Icons.Rounded.Edit,
-//                                        contentDescription = "Edit",
-//                                        tint = Color.Gray
-//                                    )
-//                                }
+                                IconButton(
+                                    onClick = {
+                                        val product = productsByCategory[index]
+                                        sharedViewProducts.setProduct(product)
+                                        VP.getNav().navigate(Screens.ProductUpdateScreen.screen)
+                                    },
+                                    modifier = Modifier.padding(end = 8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Edit,
+                                        contentDescription = "Edit",
+                                        tint = Color.Gray
+                                    )
+                                }
                                 IconButton(
 
                                     onClick = {

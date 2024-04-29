@@ -1,18 +1,21 @@
 package com.example.groeasy.experimental
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,8 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.groeasy.Screens
 import com.example.groeasy.model.DatabaseHelper
-import com.example.groeasy.screens.formatDate
+import com.example.groeasy.screens.HS
+import com.example.groeasy.screens.showDatePicker
 import com.example.groeasy.viewmodel.ProductViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -40,10 +45,12 @@ fun UpdateProduct(
     val productDao = dbhelper.productDao()
 
     if (product != null) {
+        val state = rememberScrollState()
+        LaunchedEffect(Unit) { state.animateScrollTo(100) }
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 8.dp)
+                .verticalScroll(state)
         ) {
             Text(
                 text = "Product Details",
@@ -51,7 +58,6 @@ fun UpdateProduct(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            ProductUpdateItem(label = "ID", value = product.id.toString()){}
             ProductUpdateItem(label = "Name", value = product.name) { newName ->
                 // Update the product name in the view model when the value changes
                 product.name = newName
@@ -71,13 +77,19 @@ fun UpdateProduct(
                 product.category = newCategory
             }
 
-            ProductUpdateItem(label = "Price", value = "₹${String.format("%.2f", product.price)}") { newPrice ->
+            ProductUpdateItem(
+                label = "Price",
+                value = "₹${String.format("%.2f", product.price)}"
+            ) { newPrice ->
                 // Update the product price in the view model when the value changes
                 // Assuming newPrice is a string representation of price
                 product.price = (newPrice.toDoubleOrNull() ?: 0.0).toFloat()
             }
 
-            ProductUpdateItem(label = "Quantity", value = product.quantity.toString()) { newQuantity ->
+            ProductUpdateItem(
+                label = "Quantity",
+                value = product.quantity.toString()
+            ) { newQuantity ->
                 // Update the product quantity in the view model when the value changes
                 product.quantity = newQuantity.toFloatOrNull() ?: 0.toFloat()
             }
@@ -87,15 +99,15 @@ fun UpdateProduct(
                 product.unit = newUnit.toIntOrNull() ?: 0
             }
 
-            ProductUpdateItem(label = "Expiry", value = formatDate(product.expiry)) { newExpiry ->
-                // Update the product expiry date in the view model when the value changes
-                // Assuming formatDate is a function to format the date
-                // You may need to parse it before updating the product expiry date
-                product.expiry = newExpiry.toLong()
-            }
+            product.expiry = showDatePicker()
+
             Button(onClick = {
+                Toast.makeText(context, "Successfully updated", Toast.LENGTH_SHORT).show()
                 GlobalScope.launch {
                     productDao.updateProduct(product)
+                }
+                HS.getNav().navigate(Screens.HomeScreen.screen){
+                    popUpTo(0)
                 }
             }) {
                 Text(text = "Submit")
@@ -123,7 +135,6 @@ fun ProductUpdateItem(label: String, value: String, onUpdate: (String) -> Unit) 
                 text = label,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .weight(1f)
                     .align(Alignment.CenterVertically)
             )
             Spacer(modifier = Modifier.width(8.dp)) // Adds spacing between label and value

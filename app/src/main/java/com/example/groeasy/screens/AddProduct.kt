@@ -59,7 +59,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProduct() {
     val context = LocalContext.current
@@ -95,8 +94,7 @@ fun Form(dbhelper: DatabaseHelper, context: Context) {
     val param1 = simpleOutlinedTextFieldSample("Name", KeyboardType.Text)
     val param2 = simpleOutlinedTextFieldSample("Description", KeyboardType.Text)
     val param4 = dropDownMenu()
-    var param3 = ""
-    param3 = if (param4 == "Groceries") {
+    val param3: String = if (param4 == "Groceries") {
         "---"
     } else {
         simpleOutlinedTextFieldSample("Brand", KeyboardType.Text)
