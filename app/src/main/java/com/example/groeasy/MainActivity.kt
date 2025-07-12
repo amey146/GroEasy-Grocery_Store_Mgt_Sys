@@ -40,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.groeasy.experimental.UpdateProduct
 import com.example.groeasy.screens.AddProduct
+import com.example.groeasy.screens.ExitPromptApp
 import com.example.groeasy.screens.HomeScreen
 import com.example.groeasy.screens.NotifScreen
 import com.example.groeasy.screens.ProductDetailScreen
@@ -65,6 +66,7 @@ class MainActivity : ComponentActivity() {
                 }
 
             }
+            ExitPromptApp()
         }
     }
 
